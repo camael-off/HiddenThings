@@ -1,0 +1,47 @@
+{
+  "manifest_version": 3,
+  "name": "Hidden Things — OSINT File Scanner",
+  "version": "0.1.0",
+  "description": "Détecte robots.txt, sitemap.xml, security.txt et autres fichiers standards/sensibles sur le site visité.",
+  "author": "Camael",
+  "homepage_url": "https://github.com/camael-off/hidden_things",
+
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "HiddenThings",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png"
+    }
+  },
+
+  "background": {
+    "service_worker": "background/background.js",
+    "type": "module"
+  },
+
+  "permissions": [
+    "storage",
+    "activeTab",
+    "downloads",
+    "scripting"
+  ],
+
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self';"
+  },
+
+  "minimum_chrome_version": "116"
+}

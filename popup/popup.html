@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>HiddenThings</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <div class="brand">
+        <span class="dot"></span>
+        <h1>HiddenThings</h1>
+      </div>
+      <div class="header-actions">
+        <button id="themeToggle" class="theme-btn" type="button" title="Changer de thème">☾</button>
+        <button id="settingsToggle" class="theme-btn" type="button" title="Paramètres">⚙</button>
+        <label class="switch" title="Scanner automatiquement chaque site visité">
+          <input type="checkbox" id="autoScanToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+    </header>
+
+    <div id="settingsPanel" class="settings-panel hidden">
+      <div class="settings-row">
+        <label for="fontSizeSelect">Taille du texte</label>
+        <select id="fontSizeSelect">
+          <option value="small">Petit</option>
+          <option value="normal">Normal</option>
+          <option value="large">Grand</option>
+          <option value="xlarge">Très grand</option>
+        </select>
+      </div>
+      <div class="settings-row">
+        <label for="accentColorInput">Couleur principale</label>
+        <input type="color" id="accentColorInput" />
+      </div>
+      <div class="settings-row">
+        <label for="popupSizeSelect">Taille de l'extension</label>
+        <select id="popupSizeSelect">
+          <option value="compact">Compacte</option>
+          <option value="normal">Normale</option>
+          <option value="large">Grande</option>
+          <option value="xlarge">Très grande</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="target-origin" id="targetOrigin">—</div>
+
+    <main id="resultsList" class="results"></main>
+
+    <button id="manualScanBtn" class="scan-btn hidden" type="button">
+      Rescanner
+    </button>
+
+    <div class="advanced-section">
+      <div class="advanced-header">
+        <span class="section-title">Reconnaissance Avancée</span>
+        <label class="switch" title="Tester .env, .git/HEAD, .gitignore, package.json">
+          <input type="checkbox" id="advancedScanToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="hint">Ces requêtes peuvent parfois être sauvegardées côté serveur cible.</p>
+      <div id="advancedResults" class="results hidden"></div>
+    </div>
+
+    <div class="advanced-section">
+      <div class="advanced-header">
+        <span class="section-title">Source Maps JS</span>
+        <label class="switch" title="Chercher les .js.map des scripts chargés">
+          <input type="checkbox" id="sourceMapScanToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <p class="hint">Peut révéler le code source non-minifié des scripts.</p>
+      <div id="sourceMapResults" class="results hidden"></div>
+    </div>
+
+    <div class="advanced-section">
+      <div class="advanced-header">
+        <span class="section-title">Reconnaissance Personnalisée</span>
+        <label class="switch" title="Tester tes propres chemins">
+          <input type="checkbox" id="customScanToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+      <div id="customBody" class="hidden">
+        <p class="hint">Un chemin par ligne (ex: /backup).</p>
+        <textarea id="customTargetsTextarea" class="custom-textarea" rows="3" placeholder="/backup-2024.zip&#10;/old-admin/"></textarea>
+        <button id="saveCustomBtn" class="scan-btn" type="button">Enregistrer</button>
+        <div id="customResults" class="results hidden"></div>
+      </div>
+    </div>
+
+    <footer>
+      <span id="statusText">Chargement…</span>
+      <a class="credit" href="https://github.com/camael-off" target="_blank" rel="noopener noreferrer">by Camael</a>
+    </footer>
+
+    <script src="popup.js" type="module"></script>
+  </body>
+</html>
