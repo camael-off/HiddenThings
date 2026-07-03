@@ -1,4 +1,4 @@
-import { PASSIVE_TARGETS, scanTargets } from '../lib/scanner.js';
+import { PASSIVE_TARGETS, scanTargets, parseRobotsTxt } from '../lib/scanner.js';
 
 const CACHE_TTL_MS = 5 * 60 * 1000;
 
@@ -46,8 +46,23 @@ function updateBadge(tabId, foundCount) {
   });
 }
 
+async function scanRobotsDiscoveries(origin, results) {
+  const robots = results.find((r) => r.path === '/robots.txt' && r.found);
+  if (!robots) return [];
+
+  try {
+    const res = await fetch(origin + '/robots.txt', { credentials: 'omit', cache: 'no-store' });
+    const text = await res.text();
+    const discovered = parseRobotsTxt(text, origin).filter((p) => !PASSIVE_TARGETS.includes(p));
+    return discovered.length ? scanTargets(origin, discovered) : [];
+  } catch {
+    return [];
+  }
+}
+
 async function runPassiveScan(tabId, origin) {
   const results = await scanTargets(origin, PASSIVE_TARGETS);
+  results.push(...(await scanRobotsDiscoveries(origin, results)));
   await setCachedScan(origin, results);
   updateBadge(tabId, results.filter((r) => r.found).length);
   return results;
