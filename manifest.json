@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Hidden Things — OSINT File Scanner",
   "version": "0.1.0",
-  "description": "Détecte robots.txt, sitemap.xml, security.txt et autres fichiers standards/sensibles sur le site visité.",
+  "description": "Detects robots.txt, sitemap.xml, security.txt, and other standard or sensitive files on the visited site.",
   "author": "Camael",
   "homepage_url": "https://github.com/camael-off/hidden_things",
 

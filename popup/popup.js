@@ -112,7 +112,7 @@ function renderRow(result) {
   const downloadBtn = document.createElement("button");
   downloadBtn.type = "button";
   downloadBtn.className = "dl-btn";
-  downloadBtn.title = "Télécharger";
+  downloadBtn.title = "Download";
   downloadBtn.textContent = "⬇";
   downloadBtn.addEventListener("click", () => {
     chrome.downloads.download({ url: result.url });
@@ -134,7 +134,7 @@ function renderInto(container, results) {
   if (found.length === 0) {
     const empty = document.createElement("p");
     empty.className = "empty-hint";
-    empty.textContent = "Rien trouvé.";
+    empty.textContent = "Nothing found.";
     container.appendChild(empty);
     return;
   }
@@ -205,7 +205,7 @@ async function runCustomScan() {
 async function init() {
   const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   if (!tab || !tab.id) {
-    statusEl.textContent = "Page non scannable";
+    statusEl.textContent = "Can't scan this page";
     return;
   }
 
@@ -245,7 +245,7 @@ async function init() {
   applyAccentColor(accentColor);
 
   if (!currentOrigin) {
-    originEl.textContent = "Page non scannable (chrome://, fichier local…)";
+    originEl.textContent = "Can't scan this page (chrome://, local file…)";
     renderResults(null);
     statusEl.textContent = "—";
     manualBtn.classList.add("hidden");
@@ -277,7 +277,7 @@ async function init() {
   }
 
   renderResults(null);
-  statusEl.textContent = "Scan en cours…";
+  statusEl.textContent = "Scanning…";
   const results = await chrome.runtime.sendMessage({
     type: "RUN_PASSIVE_SCAN",
     tabId: currentTabId,
@@ -285,7 +285,7 @@ async function init() {
   });
 
   if (!results || results.error) {
-    statusEl.textContent = "Erreur pendant le scan";
+    statusEl.textContent = "Scan failed";
     return;
   }
   renderResults(results);
@@ -296,15 +296,15 @@ toggleEl.addEventListener("change", async () => {
   const enabled = toggleEl.checked;
   await chrome.storage.local.set({ autoScanEnabled: enabled });
   statusEl.textContent = enabled
-    ? "Scan automatique activé"
-    : "Scan automatique désactivé";
+    ? "Auto scan enabled"
+    : "Auto scan disabled";
 });
 
 manualBtn.addEventListener("click", async () => {
   if (!currentOrigin || currentTabId == null) return;
 
   manualBtn.disabled = true;
-  statusEl.textContent = "Scan en cours…";
+  statusEl.textContent = "Scanning…";
   renderResults(null);
 
   const results = await chrome.runtime.sendMessage({
@@ -316,7 +316,7 @@ manualBtn.addEventListener("click", async () => {
   manualBtn.disabled = false;
 
   if (!results || results.error) {
-    statusEl.textContent = "Erreur pendant le scan";
+    statusEl.textContent = "Scan failed";
     return;
   }
 
